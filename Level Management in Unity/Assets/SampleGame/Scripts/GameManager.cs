@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
+using UnityEngine.SceneManagement;
+using LevelManagement;
 
 namespace SampleGame
 {
@@ -19,13 +21,32 @@ namespace SampleGame
         private bool _isGameOver;
         public bool IsGameOver { get { return _isGameOver; } }
 
+        private static GameManager _instance;
+        public static GameManager Instance { get { return _instance; } }
 
         // initialize references
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
             _player = Object.FindObjectOfType<ThirdPersonCharacter>();
             _objective = Object.FindObjectOfType<Objective>();
             _goalEffect = Object.FindObjectOfType<GoalEffect>();
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
+            }
         }
 
         // end the level
@@ -58,17 +79,18 @@ namespace SampleGame
             {
                 _isGameOver = true;
                 _goalEffect.PlayEffect();
+                WinScreen.Open();
             }
         }
+
 
         // check for the end game condition on each frame
         private void Update()
         {
-            if (_objective != null & _objective.IsComplete)
+            if (_objective != null && _objective.IsComplete)
             {
                 EndLevel();
             }
         }
-
     }
 }
