@@ -8,7 +8,7 @@ namespace LevelManagement
     public class MenuManager : MonoBehaviour
     {
         [SerializeField]
-        private MainMenu mainMenuPrefab;
+        private  MainMenu mainMenuPrefab;
         [SerializeField]
         private SettingsMenu settingsMenuPrefab;
         [SerializeField]
@@ -62,7 +62,7 @@ namespace LevelManagement
             DontDestroyOnLoad(_menuParent.gameObject);
 
 
-            BindingFlags myFlags = BindingFlags.Instance | BindingFlags.NonPublic |
+            BindingFlags myFlags = BindingFlags.Instance | BindingFlags.NonPublic | 
                                                BindingFlags.DeclaredOnly;
             FieldInfo[] fields = this.GetType().GetFields(myFlags);
 
